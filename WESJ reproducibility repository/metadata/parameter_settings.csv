@@ -1,0 +1,30 @@
+method_group,parameter,baseline_value,sensitivity_values,unit_or_option,reason_or_note
+Raster processing,Snap Raster,reference raster,not varied,raster,Ensures identical cell origin
+Raster processing,Cell Size,reference raster,not varied,map unit,Matches manuscript analysis grid
+Raster processing,Continuous resampling,BILINEAR,not varied,ArcGIS option,Used for continuous variables
+Raster processing,Categorical resampling,NEAREST,not varied,ArcGIS option,Preserves class codes
+WSI,original formula,"W_i,c/((1-alpha)*phi*Q_c)",uniform phi scenarios,formula,Manuscript Section 2.2.1 and Text S5
+WSI,simplified baseline formula,"W_i,c/((1-alpha)*Q_c)",not varied,formula,Main raster WSI in manuscript Section 2.2.1
+WSI,baseline numerator,agricultural water use,total water use,water-demand composition,Domestic and ecological use enter only the Text S5 sensitivity test
+WSI,alpha,0.6,"0.5;0.6;0.7",dimensionless,Availability correction coefficient
+WRLI,formula,"C=K*sqrt(R*Z)/W",not varied,dimensionless relative load,Manuscript Section 2.2.2
+WRLI,precipitation coefficient K,piecewise rule,not varied,dimensionless,Manuscript Section 2.2.2 and config/parameters.yaml
+WDEI,Local Gini window,5,"3;5;9",pixels,Baseline and window sensitivity
+WDEI,minimum valid pixels,10,"5;10;33",pixels,Prevents unstable sparse-window estimates
+WUEI,DEA orientation,input,not varied,DEA option,Minimizes proportional inputs
+WUEI,returns to scale,variable,not varied,DEA-BCC,Convexity constraint sum(lambda)=1
+WUEI,neighborhood window,11,TO_BE_COMPLETED,pixels,Local comparison set
+WUEI,minimum DMUs,10,TO_BE_COMPLETED,count,Minimum solvable neighborhood
+WUEI,alignment template,cropland ratio,not varied,raster,Matches the original WUEI script
+WUEI,alignment resampling,BILINEAR,not varied,rasterio option,Population water consumption and service value are aligned to the template
+WUEI,tile size,512,not varied,pixels,Tile calculation excludes the halo
+WUEI,halo radius,5,not varied,pixels,Corresponds to the 11 by 11 neighborhood
+WESJ,weighting,entropy,"equal;CRITIC",method,Weight sensitivity
+WESJ,aggregation,vector-normalized TOPSIS,weighted arithmetic mean,method,Aggregation sensitivity
+WESJ,component directions,"WSI cost; WDEI cost; WUEI benefit",not varied,direction,Determined by indicator meaning
+Classification,number of classes,5,not varied,count,Very low to very high
+Classification,method,equal interval,"natural breaks;quantile",method,Only identifies low-WESJ units
+Spatial autocorrelation,conceptualization,CONTIGUITY_EDGES_CORNERS,"CONTIGUITY_EDGES_ONLY;K_NEAREST_NEIGHBORS",ArcGIS option,Queen baseline with Rook and KNN sensitivity
+Spatial autocorrelation,row standardization,ROW,not varied,ArcGIS option,Standardizes unequal neighbor counts
+Spatial autocorrelation,Local Moran permutations,999,not varied,count,Pseudo-p values
+Deficit attribution,counterfactual parameters,fixed,not varied,rule,Weights normalization denominators ideals and valid mask are fixed

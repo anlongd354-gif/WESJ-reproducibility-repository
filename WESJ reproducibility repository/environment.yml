@@ -1,0 +1,11 @@
+name: wesj-reproducibility
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - numpy
+  - pandas
+  - scipy
+  - pyyaml
+  - rasterio
+  - jenkspy

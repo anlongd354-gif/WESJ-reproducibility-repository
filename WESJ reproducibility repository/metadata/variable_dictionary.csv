@@ -1,0 +1,21 @@
+variable,description,data_type,unit_or_range,direction,source_field_or_layer,calculation_role
+agricultural_water_use,Agricultural water-use volume,raster,source-specific,cost,agricultural_water_use_{year}.tif,WSI numerator or water-use component
+domestic_water_use,Domestic water-use volume,raster,source-specific,cost,domestic_water_use_{year}.tif,WSI composition sensitivity
+ecological_water_use,Ecological water-use volume,raster,source-specific,cost,ecological_water_use_{year}.tif,WSI composition sensitivity
+water_carrying_capacity,Water ecosystem carrying-capacity volume,raster,source-specific,benefit,water_carrying_capacity_{year}.tif,WSI denominator
+population,Population amount or density,raster,source-specific,cost,population_{year}.tif,WRLI socioeconomic pressure
+gross_domestic_product,Gross domestic product,raster,source-specific,cost,gross_domestic_product_{year}.tif,WRLI socioeconomic pressure
+precipitation,Annual precipitation,raster,mm,context,precipitation_{year}.tif,WRLI precipitation coefficient
+water_ecosystem_service_volume,Water ecosystem service volume,raster,source-specific,benefit,water_ecosystem_service_volume_{year}.tif,WRLI denominator
+WRLI,Water-resource load index,raster,nonnegative,cost,wrli_{year}.tif,Input to Local Gini
+WDEI,Local Gini coefficient of WRLI,raster,0-1,cost,wdei_{year}.tif,WESJ component
+population_density,Population-density input,raster,nonnegative,cost,population_density_{year}.tif,DEA-BCC input
+water_consumption,Water-consumption input,raster,nonnegative,cost,water_consumption_{year}.tif,DEA-BCC input
+cropland_ratio,Cropland ratio,raster,0-1,cost,cropland_ratio_{year}.tif,DEA-BCC input
+ecosystem_service_value,Water ecosystem service value,raster,nonnegative,benefit,ecosystem_service_value_{year}.tif,DEA-BCC output
+WUEI,Input-oriented DEA-BCC efficiency,raster,0-1,benefit,wuei_{year}.tif,WESJ component
+WSI,Water security pressure index,raster,0-1 after normalization,cost,wsi_normalized_{year}.tif,WESJ component
+WESJ,Entropy-weighted TOPSIS closeness,raster or table,0-1,benefit,wesj_{year}.tif,Composite justice index
+phi_WSI,WSI-related absolute WESJ deficit contribution,raster or table,nonnegative,cost contribution,generated,WESJ deficit attribution
+phi_WDEI,WDEI-related absolute WESJ deficit contribution,raster or table,nonnegative,cost contribution,generated,WESJ deficit attribution
+phi_WUEI,WUEI-related absolute WESJ deficit contribution,raster or table,nonnegative,cost contribution,generated,WESJ deficit attribution

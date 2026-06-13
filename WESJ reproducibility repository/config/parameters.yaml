@@ -1,0 +1,119 @@
+raster_processing:
+  target_crs: manuscript_reference_grid
+  target_cell_size: manuscript_reference_grid
+  snap_raster: manuscript_reference_grid
+  processing_extent: manuscript_reference_grid
+  clipping_mask: study_boundary
+  continuous_resampling: BILINEAR
+  categorical_resampling: NEAREST
+  output_nodata: -9999
+
+wsi:
+  alpha: 0.6
+  original_formula: W_i_c/((1-alpha)*phi*Q_c)
+  simplified_baseline_formula: W_i_c/((1-alpha)*Q_c)
+  baseline_numerator: agricultural_water_use
+  omitted_uniform_coefficient_in_baseline: phi
+  normalized_range: [0.0, 1.0]
+  indicator_direction: cost
+
+wrli:
+  formula: C=K*sqrt(R*Z)/W
+  R_unit: ten_thousand_persons
+  Z_unit: billion_CNY
+  W_unit: billion_cubic_metres
+  precipitation_coefficient:
+    - {minimum_exclusive: null, maximum_inclusive: 200, expression: "1.0"}
+    - {minimum_exclusive: 200, maximum_inclusive: 400, expression: "1.0-0.1*(P-200)/200"}
+    - {minimum_exclusive: 400, maximum_inclusive: 800, expression: "0.9-0.2*(P-400)/400"}
+    - {minimum_exclusive: 800, maximum_inclusive: 1600, expression: "0.7-0.2*(P-800)/800"}
+    - {minimum_exclusive: 1600, maximum_inclusive: null, expression: "0.5"}
+
+local_gini_wdei:
+  baseline_window_size: 5
+  baseline_minimum_valid_pixels: 10
+  sensitivity_windows:
+    - {window_size: 3, minimum_valid_pixels: 5}
+    - {window_size: 5, minimum_valid_pixels: 10}
+    - {window_size: 9, minimum_valid_pixels: 33}
+  indicator_direction: cost
+  output_range: [0.0, 1.0]
+
+dea_bcc_wuei:
+  orientation: input
+  returns_to_scale: variable
+  alignment_template: cropland_ratio
+  alignment_resampling: BILINEAR
+  preserve_zero_as_valid: true
+  inputs:
+    - population_density
+    - water_consumption
+    - cropland_ratio
+  outputs:
+    - ecosystem_service_value
+  neighborhood_window_size: 11
+  minimum_dmus: 10
+  tile_size: 512
+  halo_radius: 5
+  solver: scipy_highs
+  epsilon: 1.0e-12
+  indicator_direction: benefit
+  output_range: [0.0, 1.0]
+
+entropy_topsis_wesj:
+  components: [WSI, WDEI, WUEI]
+  directions:
+    WSI: cost
+    WDEI: cost
+    WUEI: benefit
+  positive_orientation:
+    WSI: "1-WSI"
+    WDEI: "1-WDEI"
+    WUEI: "WUEI"
+  weighting: entropy
+  normalization: vector
+  aggregation: TOPSIS
+  output_range: [0.0, 1.0]
+
+wesj_classification:
+  number_of_classes: 5
+  baseline_method: equal_interval
+  baseline_breaks: [0.0, 0.2, 0.4, 0.6, 0.8, 1.0]
+  low_wesj_classes: [1, 2]
+  sensitivity_methods:
+    - equal_interval
+    - natural_breaks
+    - quantile
+
+wsi_sensitivity:
+  alpha_values: [0.5, 0.6, 0.7]
+  water_use_scenarios:
+    - {name: agricultural_only, agricultural: 1.0, domestic: 0.0, ecological: 0.0}
+    - {name: total_water_use, agricultural: 1.0, domestic: 1.0, ecological: 1.0}
+
+wesj_method_sensitivity:
+  models:
+    M1: {preprocessing: original_positive, weighting: entropy, aggregation: topsis}
+    M2: {preprocessing: original_positive, weighting: equal, aggregation: topsis}
+    M3: {preprocessing: original_positive, weighting: critic, aggregation: topsis}
+    M4: {preprocessing: minmax_positive, weighting: entropy, aggregation: weighted_mean}
+    M5: {preprocessing: minmax_positive, weighting: equal, aggregation: weighted_mean}
+    M6: {preprocessing: minmax_positive, weighting: critic, aggregation: weighted_mean}
+    M7: {preprocessing: minmax_positive, weighting: entropy, aggregation: topsis}
+  topsis_shapley:
+    fix_weights: true
+    fix_vector_normalization_denominators: true
+    fix_ideal_solutions: true
+    fix_valid_pixel_mask: true
+
+spatial_autocorrelation:
+  baseline_relationship: CONTIGUITY_EDGES_CORNERS
+  sensitivity_relationships:
+    - CONTIGUITY_EDGES_ONLY
+    - K_NEAREST_NEIGHBORS
+  number_of_neighbors: 4
+  distance_method: EUCLIDEAN_DISTANCE
+  standardization: ROW
+  local_moran_permutations: 999
+  false_discovery_rate: NO_FDR
+  significance_level: 0.05

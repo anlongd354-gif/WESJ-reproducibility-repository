@@ -1,0 +1,48 @@
+project:
+  years: []
+
+inputs:
+  reference_raster: data/private/reference/reference_grid.tif
+  administrative_boundaries: data/private/vector/administrative_units.gpkg
+  county_id_field: unit_id
+
+  rasters:
+    agricultural_water_use: data/private/rasters/agricultural_water_use_{year}.tif
+    domestic_water_use: data/private/rasters/domestic_water_use_{year}.tif
+    ecological_water_use: data/private/rasters/ecological_water_use_{year}.tif
+    water_carrying_capacity: data/private/rasters/water_carrying_capacity_{year}.tif
+    population: data/private/rasters/population_{year}.tif
+    gross_domestic_product: data/private/rasters/gross_domestic_product_{year}.tif
+    precipitation: data/private/rasters/precipitation_{year}.tif
+    water_ecosystem_service_volume: data/private/rasters/water_ecosystem_service_volume_{year}.tif
+    population_density: data/private/rasters/population_density_{year}.tif
+    water_consumption: data/private/rasters/water_consumption_{year}.tif
+    cropland_ratio: data/private/rasters/cropland_ratio_{year}.tif
+    ecosystem_service_value: data/private/rasters/ecosystem_service_value_{year}.tif
+
+  derived_rasters:
+    wsi: data/private/derived/wsi_{year}.tif
+    wsi_normalized: data/private/derived/wsi_normalized_{year}.tif
+    wrli: data/private/derived/wrli_{year}.tif
+    wdei: data/private/derived/wdei_{year}.tif
+    wuei: data/private/derived/wuei_{year}.tif
+    wesj_baseline: data/private/derived/wesj_{year}.tif
+
+  tables:
+    county_statistics: data/private/tables/county_statistics.csv
+    zonal_statistics_directory: data/private/tables/zonal_statistics
+
+outputs:
+  root: outputs
+  wdei_pattern: outputs/wdei/wdei_{year}.tif
+  wuei_pattern: outputs/wuei/wuei_{year}.tif
+  wesj_pattern: outputs/wesj/wesj_{year}.tif
+  wesj_parameters_pattern: outputs/wesj/wesj_parameters_{year}.json
+  wsi_sensitivity_directory: outputs/sensitivity/wsi
+  classification_sensitivity_directory: outputs/sensitivity/classification
+  deficit_attribution_directory: outputs/deficit_attribution
+  summary_directory: outputs/summary_tables
+
+scratch:
+  directory: scratch
+  geodatabase: scratch/workspace.gdb

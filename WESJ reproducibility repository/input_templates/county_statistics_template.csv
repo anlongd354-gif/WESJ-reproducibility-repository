@@ -1,0 +1,2 @@
+unit_id,year,WSI,WDEI,WUEI,WESJ,valid_pixels_WSI,valid_pixels_WDEI,valid_pixels_WUEI,valid_pixels_WESJ
+EXAMPLE_001,YYYY,0.000000,0.000000,0.000000,0.000000,0,0,0,0
